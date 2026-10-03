@@ -17,6 +17,9 @@ const { metadata } = Astro.props;
 <Layout metadata={metadata}>
   <slot name="head" slot="head" />
   {Astro.slots.has('header') ? <slot name="header" /> : <Header {...headerData} isSticky showRssFeed showToggleTheme />}
+  <div class="bg-orange-600 px-3 py-1.5 text-center text-xs font-medium text-white">
+    Lyra is under active development and not ready for production.
+  </div>
   <main id="content" class="flex-1" tabindex="-1">
     <slot />
   </main>
