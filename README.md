@@ -1,6 +1,6 @@
 # Lyra Browser site
 
-Static site for Lyra Browser. AstroWind (MIT) restyled. No analytics.
+Static site for Lyra Browser.
 
 ## Install
 
