@@ -94,7 +94,12 @@ const getSite = (config: Config) => {
     googleSiteVerificationId: '',
   };
 
-  return merge({}, _default, config?.site ?? {}) as SiteConfig;
+  const site = merge({}, _default, config?.site ?? {}) as SiteConfig;
+  const envBase = process.env.LYRA_BASE;
+  if (envBase) {
+    site.base = envBase;
+  }
+  return site;
 };
 
 const getMetadata = (config: Config) => {
