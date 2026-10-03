@@ -1,0 +1,24 @@
+---
+import { Image } from 'astro:assets';
+import { SITE } from 'astrowind:config';
+import mark from '~/assets/images/lyra-mark.png';
+
+export interface Props {
+  compact?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { compact = false, size } = Astro.props;
+const resolved = size ?? (compact ? 'sm' : 'md');
+const box = resolved === 'lg' ? 'size-[4.5rem]' : resolved === 'sm' ? 'size-8' : 'size-12';
+const px = resolved === 'lg' ? 72 : resolved === 'sm' ? 32 : 48;
+const gap = resolved === 'sm' ? 'gap-2' : 'gap-3';
+const text = resolved === 'lg' ? 'text-2xl' : resolved === 'sm' ? 'text-base' : 'text-xl';
+---
+
+<span class:list={['inline-flex items-center self-center whitespace-nowrap', gap]}>
+  <span class:list={['inline-flex shrink-0 overflow-hidden rounded-full bg-[#0a0a0b]', box]}>
+    <Image src={mark} alt="" width={px} height={px} densities={[2]} class="h-full w-full object-contain" />
+  </span>
+  <span class:list={['font-semibold tracking-tight text-heading', text]}>{SITE?.name}</span>
+</span>

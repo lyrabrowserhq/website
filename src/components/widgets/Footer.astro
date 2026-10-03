@@ -1,0 +1,85 @@
+---
+import { Icon } from 'astro-icon/components';
+import Logo from '~/components/Logo.astro';
+import { getHomePermalink } from '~/utils/permalinks';
+
+interface Link {
+  text?: string;
+  href?: string;
+  ariaLabel?: string;
+  icon?: string;
+}
+
+interface Links {
+  title?: string;
+  links: Array<Link>;
+}
+
+export interface Props {
+  links: Array<Links>;
+  secondaryLinks: Array<Link>;
+  socialLinks: Array<Link>;
+  footNote?: string;
+  theme?: string;
+}
+
+const { socialLinks = [], secondaryLinks = [], links = [], footNote = '' } = Astro.props;
+---
+
+<footer class="mt-auto border-t border-[color:var(--aw-color-hairline)]">
+  <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="flex flex-wrap gap-12">
+      <div class="min-w-[14rem] max-w-sm flex-1">
+        <a class="inline-flex items-center" href={getHomePermalink()} aria-label="Lyra Browser home">
+          <Logo size="lg" />
+        </a>
+        <p class="mt-4 text-sm leading-relaxed text-muted">Firefox ESR overlay. Address-bar search goes to Seek.</p>
+        <div class="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
+          <nav aria-label="Legal">
+            {secondaryLinks.map(({ text, href }) => (
+              <a class="me-4 hover:text-heading" href={href}>
+                {text}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </div>
+      {links.map(({ title, links }) => (
+        <nav class="min-w-[8rem]" aria-label={title}>
+          <p class="text-sm font-medium text-heading">{title}</p>
+          {links?.length ? (
+            <ul class="mt-2 space-y-1 text-sm text-muted">
+              {links.map(({ text, href, ariaLabel }) => (
+                <li>
+                  <a class="hover:text-heading" href={href} aria-label={ariaLabel}>
+                    {text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </nav>
+      ))}
+    </div>
+    <div class="mt-8 flex flex-wrap items-center justify-between gap-4">
+      {socialLinks?.length ? (
+        <nav aria-label="Social">
+          <ul class="flex gap-1">
+            {socialLinks.map(({ ariaLabel, href, icon }) => (
+              <li>
+                <a
+                  class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-muted hover:bg-[color:var(--aw-color-hairline)] hover:text-heading"
+                  aria-label={ariaLabel}
+                  href={href}
+                >
+                  {icon && <Icon name={icon} class="h-5 w-5" aria-hidden="true" />}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
+      <p class="text-sm text-muted">{footNote}</p>
+    </div>
+  </div>
+</footer>

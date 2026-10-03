@@ -1,0 +1,60 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import PlatformCard from '~/components/ui/PlatformCard.astro';
+import { loadDownloads } from '~/data/downloads';
+
+const metadata = {
+  title: 'Download',
+  description: 'Get Lyra Browser for Linux and Windows. Unpack and run. Android is coming.',
+};
+
+const platforms = await loadDownloads();
+---
+
+<Layout metadata={metadata}>
+  <section class="border-b border-[color:var(--aw-color-hairline)] px-4 pt-8 pb-10 sm:px-6 sm:pt-10 sm:pb-12 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <h1 class="max-w-2xl text-3xl font-semibold tracking-tight text-heading sm:text-4xl md:text-5xl">
+        Download Lyra Browser
+      </h1>
+      <p class="mt-4 max-w-2xl text-base text-default sm:text-lg">Pick your system. Unpack the download and run it.</p>
+    </div>
+  </section>
+
+  <section class="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {platforms.map((platform) => (
+        <PlatformCard
+          id={platform.id}
+          icon={platform.icon}
+          name={platform.name}
+          href={platform.href}
+          hint={platform.hint}
+          size={platform.size}
+          sha256={platform.sha256}
+          comingSoon={platform.comingSoon}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
+    <div class="mx-auto max-w-6xl rounded-lg border border-[color:var(--aw-color-hairline)] p-6 sm:p-8">
+      <h2 class="text-xl font-semibold tracking-tight text-heading">Check the file before you run it</h2>
+      <ol class="mt-5 list-decimal space-y-3 pl-5 text-sm leading-relaxed text-default">
+        <li>Each card shows the file size and SHA-256 of the current release.</li>
+        <li>After it downloads, hash the file on your machine and compare it to the hash on the card.</li>
+      </ol>
+      <p class="mt-8 text-sm text-muted">
+        Want to build it yourself?
+        <a
+          class="underline decoration-[color:var(--aw-color-strong)] underline-offset-4 hover:text-heading"
+          href="https://github.com/lyrabrowserhq/lyra"
+        >
+          The source is on GitHub
+        </a>
+        .
+      </p>
+    </div>
+  </section>
+</Layout>

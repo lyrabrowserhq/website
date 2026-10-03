@@ -1,0 +1,17 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import ErrorHero from '~/components/ui/ErrorHero.astro';
+
+const metadata = {
+  title: 'Page not found',
+  description: 'That URL is not on lyrabrowser.com.',
+};
+---
+
+<Layout metadata={metadata}>
+  <ErrorHero
+    code="404"
+    title="No such page"
+    body="That address is not on this site. It may have moved, or it was never published."
+  />
+</Layout>

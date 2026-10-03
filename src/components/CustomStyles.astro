@@ -1,0 +1,257 @@
+---
+---
+
+<style is:inline>
+  :root {
+    --aw-font-sans: var(--font-space-grotesk);
+    --aw-font-serif: var(--font-space-grotesk);
+    --aw-font-heading: var(--font-space-grotesk);
+    --aw-font-mono: var(--font-space-mono);
+
+    --aw-color-primary: #18181b;
+    --aw-color-secondary: #0a0a0b;
+    --aw-color-accent: #18181b;
+    --aw-color-link: #18181b;
+
+    --aw-color-text-heading: #0a0a0b;
+    --aw-color-text-default: #18181b;
+    --aw-color-text-muted: #5c5c64;
+    --aw-color-bg-page: #fafafa;
+    --aw-color-bg-page-dark: #0a0a0b;
+    --aw-color-surface: #f4f4f5;
+    --aw-color-hairline: #e9e9ec;
+    --aw-color-strong: #d9d9de;
+
+    ::selection {
+      background-color: rgb(0 115 255 / 18%);
+    }
+  }
+
+  .dark {
+    --aw-color-primary: #f4f4f5;
+    --aw-color-secondary: #d9d9de;
+    --aw-color-accent: #f4f4f5;
+    --aw-color-link: #e9e9ec;
+
+    --aw-color-text-heading: #f4f4f5;
+    --aw-color-text-default: #d9d9de;
+    --aw-color-text-muted: #a1a1aa;
+    --aw-color-bg-page: #0a0a0b;
+    --aw-color-bg-page-dark: #0a0a0b;
+    --aw-color-surface: #16161a;
+    --aw-color-hairline: #1f1f24;
+    --aw-color-strong: #2a2a31;
+
+    ::selection {
+      background-color: rgb(0 115 255 / 22%);
+      color: #e9e9ec;
+    }
+  }
+
+  html {
+    background-color: var(--aw-color-bg-page);
+    color-scheme: dark;
+  }
+
+  html:not(.dark) {
+    color-scheme: light;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 0.75rem;
+    top: 0.75rem;
+    z-index: 100;
+    padding: 0.5rem 0.85rem;
+    border-radius: 0.375rem;
+    background: var(--aw-color-text-heading);
+    color: var(--aw-color-bg-page);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+    outline: 2px solid var(--aw-color-text-heading);
+    outline-offset: 2px;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--aw-color-text-heading);
+    outline-offset: 2px;
+  }
+
+  .hero-wash {
+    background: radial-gradient(ellipse 70% 55% at 85% 0%, rgb(24 24 27 / 8%), transparent 60%);
+  }
+
+  .dark .hero-wash {
+    background: radial-gradient(ellipse 80% 60% at 90% -10%, #2a2a35 0%, transparent 58%);
+  }
+
+  .dark body {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 90% -20%, #1a1a22 0%, transparent 50%),
+      radial-gradient(1px 1px at 12% 18%, #ffffff4d 50%, transparent 51%),
+      radial-gradient(1px 1px at 28% 72%, #ffffff40 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 61% 31%, #ffffff4d 50%, transparent 51%),
+      radial-gradient(1px 1px at 81% 64%, #ffffff38 50%, transparent 51%),
+      radial-gradient(1px 1px at 44% 88%, #ffffff33 50%, transparent 51%);
+    background-attachment: fixed;
+  }
+
+  .lyra-switch {
+    display: inline-flex;
+    width: 2.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    align-items: center;
+    border-radius: 9999px;
+    padding: 2px;
+  }
+
+  .lyra-switch-on {
+    justify-content: flex-end;
+    background: var(--aw-color-text-heading);
+  }
+
+  .lyra-switch-off {
+    justify-content: flex-start;
+    background: var(--aw-color-strong);
+  }
+
+  .lyra-switch-knob {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 9999px;
+    background: var(--aw-color-bg-page);
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 8%);
+  }
+
+  .lyra-panel {
+    overflow: hidden;
+    border: 1px solid var(--aw-color-hairline);
+    border-radius: 8px;
+    background: var(--aw-color-surface);
+  }
+
+  .lyra-panel-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--aw-color-hairline);
+    background: var(--aw-color-bg-page);
+    padding: 0.75rem 1rem;
+  }
+
+  .lyra-panel-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    border-top: 1px solid var(--aw-color-hairline);
+    padding: 0.65rem 1rem;
+  }
+
+  .lyra-panel-row:first-child {
+    border-top: 0;
+  }
+
+  .hero-mark {
+    position: relative;
+    display: flex;
+    width: 16rem;
+    height: 16rem;
+    margin-inline: auto;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-mark-disc {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: 9rem;
+    height: 9rem;
+    overflow: hidden;
+    border-radius: 9999px;
+    background: #0a0a0b;
+  }
+
+  .hero-mark-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 9999px;
+    border: 1px solid var(--aw-color-hairline);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+  }
+
+  .hero-mark-ring-inner {
+    width: 12.5rem;
+    height: 12.5rem;
+  }
+
+  .hero-mark-ring-outer {
+    width: 16rem;
+    height: 16rem;
+    opacity: 0.6;
+  }
+
+  @media (min-width: 640px) {
+    .hero-mark {
+      width: 19.5rem;
+      height: 19.5rem;
+    }
+
+    .hero-mark-disc {
+      width: 11rem;
+      height: 11rem;
+    }
+
+    .hero-mark-ring-inner {
+      width: 15.5rem;
+      height: 15.5rem;
+    }
+
+    .hero-mark-ring-outer {
+      width: 19.5rem;
+      height: 19.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero-mark {
+      width: 22.5rem;
+      height: 22.5rem;
+    }
+
+    .hero-mark-disc {
+      width: 13rem;
+      height: 13rem;
+    }
+
+    .hero-mark-ring-inner {
+      width: 18rem;
+      height: 18rem;
+    }
+
+    .hero-mark-ring-outer {
+      width: 22.5rem;
+      height: 22.5rem;
+    }
+  }
+
+  #defaults {
+    scroll-margin-top: 5.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dark body {
+      background-attachment: scroll;
+    }
+  }
+</style>

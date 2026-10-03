@@ -1,0 +1,44 @@
+---
+import { Icon } from 'astro-icon/components';
+import Badge from '~/components/ui/Badge.astro';
+import { formatSize } from '~/data/downloads';
+
+export interface Props {
+  icon: string;
+  name: string;
+  hint: string;
+  id?: string;
+  href?: string;
+  size?: number;
+  sha256?: string;
+  comingSoon?: boolean;
+}
+
+const { icon, name, href, hint, id, size, sha256, comingSoon } = Astro.props;
+---
+
+<article
+  id={id}
+  class="flex h-full flex-col rounded-lg border border-[color:var(--aw-color-hairline)] bg-[color:var(--aw-color-surface)] p-6 sm:p-7"
+>
+  <div class="flex items-start justify-between gap-3">
+    <Icon name={icon} class="h-8 w-8 text-heading" aria-hidden="true" />
+    {comingSoon && <Badge text="Soon" variant="soon" />}
+  </div>
+  <h2 class="mt-5 text-2xl font-semibold tracking-tight text-heading">{name}</h2>
+  <p class="mt-3 flex-1 text-sm leading-relaxed text-default">{hint}</p>
+  {typeof size === 'number' && <p class="mt-5 font-mono text-sm text-heading">{formatSize(size)}</p>}
+  {sha256 && (
+    <div class="mt-3 min-w-0">
+      <p class="text-[11px] font-medium uppercase tracking-wider text-muted">SHA-256</p>
+      <p class="mt-1 break-all font-mono text-xs leading-relaxed text-default select-all">{sha256}</p>
+    </div>
+  )}
+  {comingSoon ? (
+    <p class="mt-8 text-sm text-muted">Not available to download yet.</p>
+  ) : (
+    <a class="btn-primary mt-8 self-start" href={href}>
+      Download for {name}
+    </a>
+  )}
+</article>

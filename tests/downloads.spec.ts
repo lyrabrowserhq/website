@@ -1,0 +1,16 @@
+import { test, expect } from '@playwright/test';
+import { downloadUrl, formatSize } from '../src/data/downloads';
+
+test('formatSize uses MB below 1 GB', () => {
+  expect(formatSize(1024 * 1024)).toBe('1.0 MB');
+  expect(formatSize(122825544)).toBe('117.1 MB');
+});
+
+test('formatSize uses GB at 1 GB and above', () => {
+  expect(formatSize(1024 * 1024 * 1024)).toBe('1.0 GB');
+});
+
+test('downloadUrl points at the tagged GitHub asset', () => {
+  expect(downloadUrl('linux')).toMatch(/\/v0\.5\.0\/lyra-0\.5\.0-linux-x86_64\.tar\.xz$/);
+  expect(downloadUrl('windows')).toMatch(/\/v0\.5\.0\/lyra-0\.5\.0-windows-x86_64\.zip$/);
+});

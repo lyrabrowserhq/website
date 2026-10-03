@@ -1,0 +1,427 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import Badge from '~/components/ui/Badge.astro';
+import DefaultsPanel from '~/components/ui/DefaultsPanel.astro';
+import DownloadCta from '~/components/ui/DownloadCta.astro';
+import HeroMark from '~/components/ui/HeroMark.astro';
+import { getPermalink, getBlogPermalink } from '~/utils/permalinks';
+import { findLatestPosts } from '~/utils/blog';
+import { getFormattedDate } from '~/utils/utils';
+import ublock from '~/assets/images/ublock.png';
+import dnsSb from '~/assets/images/dns-sb.png';
+
+const metadata = {
+  title: 'Lyra Browser',
+  ignoreTitleTemplate: true,
+  description:
+    'Address-bar search goes to Seek. uBlock Origin is already installed. GPS is off. Public pages cannot scan your LAN. Linux and Windows. Android is coming.',
+};
+
+const shipped = [
+  {
+    icon: 'tabler:search',
+    title: 'Seek',
+    href: 'https://seek.lyrabrowser.com',
+    body: 'Seek is the default. Brave Search and DuckDuckGo are in the list if you want them. Google is not.',
+  },
+  {
+    icon: 'tabler:map-pin-off',
+    title: 'GPS stays off',
+    body: 'Sites cannot read GPS. Settings can fake Reykjavik instead, which matches the UTC timezone spoof. Ask mode uses BeaconDB, not Google.',
+  },
+  {
+    icon: 'tabler:network',
+    title: 'LAN probes stay blocked',
+    body: 'A page on the public internet cannot reach 192.168.x, 10.x, or localhost. That stops the usual home-network scans.',
+  },
+  {
+    icon: 'tabler:cube',
+    title: 'WebGL on, WebGPU off',
+    body: 'WebGL stays on so maps and Cloudflare checks still load. WebGPU is off unless you allow a site. You can restrict WebGL the same way.',
+  },
+  {
+    icon: 'tabler:lock',
+    title: 'Sync',
+    href: getPermalink('/sync'),
+    body: 'No Mozilla account. Pair two machines with a code. Ciphertext goes through a relay you can self-host.',
+  },
+  {
+    icon: 'tabler:cookie',
+    title: 'Encrypted cookies',
+    body: 'Settings can encrypt cookies.sqlite and the other profile databases on disk. Turn it on, restart, and it stays on for that profile.',
+  },
+  {
+    icon: 'tabler:history',
+    title: 'History search on this machine',
+    body: 'A few KB of text from pages you visited stays here so you can search inside them. Private windows are skipped. Nothing is uploaded.',
+  },
+  {
+    icon: 'tabler:world',
+    title: 'DNS over HTTPS',
+    href: '#dns-sb',
+    body: 'DNS goes to DNS.SB over HTTPS, with the system resolver as backup. Tracking junk is stripped off links. Global Privacy Control is on.',
+  },
+];
+
+const compare = [
+  {
+    label: 'Default search',
+    usual: 'Google',
+    hardened: 'Often DuckDuckGo',
+    lyra: 'Seek',
+  },
+  {
+    label: 'Ads and trackers',
+    usual: 'You add a blocker',
+    hardened: 'Usually blocked',
+    lyra: 'uBlock Origin already in',
+  },
+  {
+    label: 'GPS',
+    usual: 'Asks, then shares',
+    hardened: 'Often blocked',
+    lyra: 'Blocked, or Reykjavik spoof',
+  },
+  {
+    label: 'Home network scans',
+    usual: 'Allowed',
+    hardened: 'Varies',
+    lyra: 'Blocked',
+  },
+  {
+    label: 'Maps, video, logins',
+    usual: 'Works',
+    hardened: 'Often fails',
+    lyra: 'Works',
+  },
+  {
+    label: 'Updates',
+    usual: 'Installs itself',
+    hardened: 'Usually none',
+    lyra: 'You choose',
+  },
+];
+
+const posts = await findLatestPosts({ count: 1 });
+---
+
+<Layout metadata={metadata}>
+  <section class="relative border-b border-[color:var(--aw-color-hairline)]">
+    <div class="pointer-events-none absolute inset-0 hero-wash" aria-hidden="true"></div>
+    <div class="relative mx-auto grid max-w-6xl items-center gap-8 px-4 py-10 sm:px-6 md:py-16 lg:grid-cols-[minmax(0,1fr)_min-content] lg:gap-12 lg:px-8">
+      <div>
+        <h1 class="max-w-xl text-3xl font-semibold tracking-tight text-heading sm:text-4xl md:text-5xl">
+          An actual private and secure browser
+        </h1>
+        <p class="mt-5 max-w-xl text-base leading-relaxed text-default sm:text-lg">
+          Lyra is not just another fork of Firefox ESR but an anti-convenience one tailored for people who really care
+          about their privacy and security on the modern web.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <DownloadCta />
+          <span class="inline-flex flex-wrap items-center gap-3 text-sm text-muted">
+            <span class="inline-flex items-center gap-1.5">
+              <Icon name="linux" class="h-4 w-4 text-heading" aria-hidden="true" />
+              Linux
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+              <Icon name="windows" class="h-4 w-4 text-heading" aria-hidden="true" />
+              Windows
+            </span>
+            <Badge icon="android" text="Android" soon />
+          </span>
+        </div>
+        <p class="mt-4 text-sm text-muted">
+          Free ·{' '}
+          <a
+            class="underline decoration-[color:var(--aw-color-strong)] underline-offset-4 hover:text-heading"
+            href="https://github.com/lyrabrowserhq/lyra"
+          >
+            Source on GitHub
+          </a>
+        </p>
+      </div>
+      <HeroMark />
+    </div>
+  </section>
+
+  <section id="defaults" class="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-12">
+      <div>
+        <h2 class="text-2xl font-semibold tracking-tight text-heading sm:text-3xl">
+          What is on when you first open it
+        </h2>
+        <p class="mt-3 max-w-xl text-default">
+          <a
+            class="font-medium text-heading underline decoration-[color:var(--aw-color-strong)] underline-offset-4"
+            href="https://seek.lyrabrowser.com"
+          >
+            Seek
+          </a>{' '}
+          in the address bar. Ads blocked. Location off. LAN probes off. Maps still load.
+        </p>
+        <div class="mt-8 space-y-8">
+          <article class="flex gap-4">
+            <Icon name="tabler:search" class="mt-1 h-6 w-6 shrink-0 text-heading" aria-hidden="true" />
+            <div>
+              <h3 class="text-lg font-semibold tracking-tight text-heading">Seek is the default engine</h3>
+              <p class="mt-2 text-default leading-relaxed">
+                Queries go to{' '}
+                <a
+                  class="font-medium text-heading underline decoration-[color:var(--aw-color-strong)] underline-offset-4"
+                  href="https://seek.lyrabrowser.com"
+                >
+                  Seek
+                </a>
+                . Brave Search and DuckDuckGo are in the list if you want them. Google, Bing, Amazon, eBay, and Twitter
+                are not.
+              </p>
+            </div>
+          </article>
+          <article class="flex gap-4">
+            <Image src={ublock} alt="" width={28} height={28} class="mt-1 size-7 shrink-0" />
+            <div>
+              <h3 class="text-lg font-semibold tracking-tight text-heading">Ads and popups are already blocked</h3>
+              <p class="mt-2 text-default leading-relaxed">
+                <a
+                  class="font-medium text-heading underline decoration-[color:var(--aw-color-strong)] underline-offset-4"
+                  href="https://ublockorigin.com/"
+                >
+                  uBlock Origin
+                </a>{' '}
+                is already installed. You do not hunt for an extension.
+              </p>
+            </div>
+          </article>
+          <article class="flex gap-4">
+            <Icon name="tabler:map-pin-off" class="mt-1 h-6 w-6 shrink-0 text-heading" aria-hidden="true" />
+            <div>
+              <h3 class="text-lg font-semibold tracking-tight text-heading">
+                Location and your home network stay closed
+              </h3>
+              <p class="mt-2 text-default leading-relaxed">
+                GPS is blocked. A spoof option reports Reykjavik. Public pages cannot reach devices on your LAN. WebRTC
+                hides local IPs.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+      <DefaultsPanel />
+    </div>
+  </section>
+
+  <section class="border-y border-[color:var(--aw-color-hairline)] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="max-w-2xl text-2xl font-semibold tracking-tight text-heading sm:text-3xl">What ships with it</h2>
+      <p class="mt-3 max-w-2xl text-default">
+        This is the browser you download, not a checklist to rebuild in Settings.
+      </p>
+      <dl class="mt-10 grid gap-x-16 gap-y-0 sm:grid-cols-2">
+        {shipped.map((row) => (
+          <div class="border-t border-[color:var(--aw-color-hairline)] py-7">
+            <dt class="flex gap-3 text-lg font-semibold tracking-tight text-heading">
+              <Icon name={row.icon} class="mt-1 h-5 w-5 shrink-0 text-heading" aria-hidden="true" />
+              {row.href ? (
+                <a class="underline decoration-[color:var(--aw-color-strong)] underline-offset-4" href={row.href}>
+                  {row.title}
+                </a>
+              ) : (
+                row.title
+              )}
+            </dt>
+            <dd class="mt-2 mb-0 ms-8 text-base leading-relaxed text-default">{row.body}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section id="dns-sb" class="scroll-mt-24 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <p class="text-sm font-medium text-muted">Resolver</p>
+      <div class="mt-6 flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-10">
+        <span class="inline-flex size-16 shrink-0 overflow-hidden sm:size-20">
+          <Image src={dnsSb} alt="" width={80} height={80} class="h-full w-full object-contain" />
+        </span>
+        <div class="min-w-0 flex-1">
+          <h2 class="text-2xl font-semibold tracking-tight text-heading sm:text-3xl">
+            <a
+              class="underline decoration-[color:var(--aw-color-strong)] underline-offset-4"
+              href="https://dns.sb/"
+              rel="noopener noreferrer"
+            >
+              DNS.SB
+            </a>
+          </h2>
+          <p class="mt-4 max-w-2xl text-default leading-relaxed">
+            Lyra Browser sends DNS lookups over HTTPS to DNS.SB. The query URL is{' '}
+            <code class="font-mono text-sm text-heading">https://doh.dns.sb/dns-query</code>. If that path fails, the
+            operating system resolver is used. You can change this in Settings.
+          </p>
+          <dl class="mt-8 grid gap-x-10 gap-y-5 sm:grid-cols-3">
+            <div>
+              <dt class="text-sm text-muted">Protocol</dt>
+              <dd class="mt-1 text-base text-heading">DNS over HTTPS</dd>
+            </div>
+            <div>
+              <dt class="text-sm text-muted">Fallback</dt>
+              <dd class="mt-1 text-base text-heading">System DNS</dd>
+            </div>
+            <div>
+              <dt class="text-sm text-muted">Operator</dt>
+              <dd class="mt-1 text-base text-heading">
+                <a
+                  class="underline decoration-[color:var(--aw-color-strong)] underline-offset-4"
+                  href="https://dns.sb/"
+                  rel="noopener noreferrer"
+                >
+                  dns.sb
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-[color:var(--aw-color-hairline)] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="max-w-2xl text-2xl font-semibold tracking-tight text-heading sm:text-3xl">
+        Usual browsers, extra-hard ones, and Lyra Browser
+      </h2>
+      <p class="mt-3 max-w-2xl text-default">Lyra Browser keeps private defaults that still pass a bot check.</p>
+      <div class="mt-8 -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+        <div class="overflow-hidden rounded-lg border border-[color:var(--aw-color-hairline)]">
+          <table class="w-full min-w-[36rem] text-sm">
+            <caption class="sr-only">Defaults compared with usual browsers and extra-hard forks</caption>
+            <thead class="bg-[color:var(--aw-color-surface)] text-left">
+              <tr>
+                <th scope="col" class="px-4 py-3 font-medium text-muted sm:px-5">
+                  Setting
+                </th>
+                <th scope="col" class="px-4 py-3 font-medium text-muted sm:px-5">
+                  Usual
+                </th>
+                <th scope="col" class="px-4 py-3 font-medium text-muted sm:px-5">
+                  Extra-hard
+                </th>
+                <th scope="col" class="px-4 py-3 font-semibold text-heading sm:px-5">
+                  Lyra Browser
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {compare.map((row) => (
+                <tr class="border-t border-[color:var(--aw-color-hairline)]">
+                  <th scope="row" class="px-4 py-3 text-left font-medium text-heading sm:px-5">
+                    {row.label}
+                  </th>
+                  <td class="px-4 py-3 text-muted sm:px-5">{row.usual}</td>
+                  <td class="px-4 py-3 text-muted sm:px-5">{row.hardened}</td>
+                  <td class="px-4 py-3 font-medium text-heading sm:px-5">{row.lyra}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-2 lg:items-start lg:gap-10">
+      <div>
+        <h2 class="text-2xl font-semibold tracking-tight text-heading sm:text-3xl">Who the browser still talks to</h2>
+        <p class="mt-4 text-default leading-relaxed">
+          Some connections stay on purpose, so security lists and the ad blocker stay current. Search goes to{' '}
+          <a
+            class="font-medium text-heading underline decoration-[color:var(--aw-color-strong)] underline-offset-4"
+            href="https://seek.lyrabrowser.com"
+          >
+            Seek
+          </a>{' '}
+          when you use the address bar. Update checks only run if you turn them on.
+        </p>
+        <a class="btn-secondary mt-8" href={getPermalink('/privacy')}>
+          Read the full list
+        </a>
+      </div>
+      <ul class="m-0 list-none border-y border-[color:var(--aw-color-hairline)] p-0 text-sm">
+        <li class="flex items-start justify-between gap-4 border-b border-[color:var(--aw-color-hairline)] py-3">
+          <span class="text-muted">Usage data, studies, accounts</span>
+          <span class="shrink-0 font-medium text-heading">Closed</span>
+        </li>
+        <li class="flex items-start justify-between gap-4 border-b border-[color:var(--aw-color-hairline)] py-3">
+          <span class="text-muted">Google Safe Browsing</span>
+          <span class="shrink-0 font-medium text-heading">Off</span>
+        </li>
+        <li class="flex items-start justify-between gap-4 border-b border-[color:var(--aw-color-hairline)] py-3">
+          <span class="text-muted">Seek</span>
+          <span class="shrink-0 font-medium text-heading">Default</span>
+        </li>
+        <li class="flex items-start justify-between gap-4 border-b border-[color:var(--aw-color-hairline)] py-3">
+          <span class="text-muted">DNS.SB</span>
+          <span class="shrink-0 font-medium text-heading">DoH</span>
+        </li>
+        <li class="flex items-start justify-between gap-4 border-b border-[color:var(--aw-color-hairline)] py-3">
+          <span class="text-muted">Security and tracker lists</span>
+          <span class="shrink-0 font-medium text-heading">Kept</span>
+        </li>
+        <li class="flex items-start justify-between gap-4 py-3">
+          <span class="text-muted">Update check</span>
+          <span class="shrink-0 font-medium text-heading">Only if you turn it on</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  {posts[0] && (
+    <section class="border-t border-[color:var(--aw-color-hairline)] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <div class="mx-auto max-w-6xl">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <h2 class="text-2xl font-semibold tracking-tight text-heading sm:text-3xl">News</h2>
+          <a class="text-sm text-muted hover:text-heading" href={getBlogPermalink()}>
+            All news
+          </a>
+        </div>
+        <a
+          class="mt-8 block border-t border-b border-[color:var(--aw-color-hairline)] py-6 transition-colors hover:border-[color:var(--aw-color-strong)] sm:py-8"
+          href={getPermalink(posts[0].permalink, 'post')}
+        >
+          <p class="text-sm text-muted">
+            <time datetime={posts[0].publishDate.toISOString()}>{getFormattedDate(posts[0].publishDate)}</time>
+            {posts[0].category ? ` · ${posts[0].category.title}` : ''}
+          </p>
+          <h3 class="mt-2 text-xl font-semibold tracking-tight text-heading sm:text-2xl">{posts[0].title}</h3>
+          {posts[0].excerpt && <p class="mt-3 max-w-3xl text-default">{posts[0].excerpt}</p>}
+        </a>
+      </div>
+    </section>
+  )}
+
+  <section class="border-t border-[color:var(--aw-color-hairline)] bg-[color:var(--aw-color-surface)] px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+      <div>
+        <h2 class="text-2xl font-semibold tracking-tight text-heading">Get Lyra Browser</h2>
+        <p class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-3 text-default">
+          <span class="inline-flex items-center gap-1.5">
+            <Icon name="linux" class="h-4 w-4 text-heading" aria-hidden="true" />
+            Linux
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <Icon name="windows" class="h-4 w-4 text-heading" aria-hidden="true" />
+            Windows
+          </span>
+          <Badge icon="android" text="Android" soon />
+        </p>
+      </div>
+      <a class="btn-primary px-5 py-2.5 text-base" href={getPermalink('/download')}>
+        Download
+      </a>
+    </div>
+  </section>
+</Layout>

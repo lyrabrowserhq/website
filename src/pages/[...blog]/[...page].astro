@@ -1,0 +1,55 @@
+---
+import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
+
+import Layout from '~/layouts/PageLayout.astro';
+import BlogList from '~/components/blog/List.astro';
+import Headline from '~/components/blog/Headline.astro';
+import Pagination from '~/components/blog/Pagination.astro';
+import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
+import { getPermalink, getBlogPermalink } from '~/utils/permalinks';
+
+import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
+
+export const prerender = true;
+
+export const getStaticPaths = (async ({ paginate }) => {
+  return await getStaticPathsBlogList({ paginate });
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props as Props;
+const currentPage = page.currentPage ?? 1;
+
+const breadcrumbs = [
+  { text: 'Home', href: getPermalink('/') },
+  ...(currentPage > 1
+    ? [{ text: 'News', href: getBlogPermalink() }, { text: `Page ${currentPage}` }]
+    : [{ text: 'News' }]),
+];
+
+const metadata = {
+  title: `News${currentPage > 1 ? ` | Page ${currentPage}` : ''}`,
+  description: 'Lyra Browser release notes and project news.',
+  robots: {
+    index: blogListRobots?.index && currentPage === 1,
+    follow: blogListRobots?.follow,
+  },
+  openGraph: {
+    type: 'blog',
+  },
+};
+---
+
+<Layout metadata={metadata}>
+  <Fragment slot="head">
+    {page.url.prev && <link rel="prev" href={page.url.prev} />}
+    {page.url.next && <link rel="next" href={page.url.next} />}
+  </Fragment>
+  <Breadcrumbs bar items={breadcrumbs} />
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <Headline subtitle="Release notes and project news.">News</Headline>
+    <BlogList posts={page.data} />
+    <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+  </section>
+</Layout>

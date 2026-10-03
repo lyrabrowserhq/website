@@ -1,0 +1,12 @@
+---
+export interface Props {
+  on?: boolean;
+  label: string;
+}
+
+const { on = false, label } = Astro.props;
+---
+
+<span class:list={['lyra-switch', on ? 'lyra-switch-on' : 'lyra-switch-off']} aria-hidden="true" title={label}>
+  <span class="lyra-switch-knob"></span>
+</span>

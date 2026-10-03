@@ -1,0 +1,84 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
+import mark from '~/assets/images/lyra-mark.png';
+import { getPermalink } from '~/utils/permalinks';
+
+const metadata = {
+  title: 'About',
+  description: 'Lyra Browser is an actual private browser. Default search is Seek.',
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="border-b border-[color:var(--aw-color-hairline)] px-4 py-12 sm:px-6 sm:py-16 md:py-20 lg:px-8">
+    <div class="mx-auto flex max-w-6xl flex-col gap-10 sm:flex-row sm:items-end sm:justify-between">
+      <div class="max-w-2xl">
+        <h1 class="text-3xl font-semibold tracking-tight text-heading sm:text-4xl md:text-5xl">
+          Lyra Browser is an actual private browser.
+        </h1>
+        <p class="mt-5 text-base text-default sm:text-lg">
+          Default search is{' '}
+          <a
+            class="font-medium text-heading underline decoration-[color:var(--aw-color-strong)] underline-offset-4"
+            href="https://seek.lyrabrowser.com"
+          >
+            Seek
+          </a>
+          . Overlay files are MPL-2.0.
+        </p>
+      </div>
+      <span class="inline-flex size-20 shrink-0 overflow-hidden rounded-full bg-[#0a0a0b] sm:size-24">
+        <Image src={mark} alt="" width={96} height={96} class="h-full w-full object-contain" />
+      </span>
+    </div>
+  </section>
+
+  <section class="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto grid max-w-6xl gap-10 md:grid-cols-3 md:gap-12">
+      <div>
+        <h2 class="text-xl font-semibold tracking-tight text-heading">What this repo is</h2>
+        <p class="mt-4 text-default leading-relaxed">
+          This git repository is the overlay. It does not contain the engine source. You fetch the pinned engine, apply
+          branding and prefs, and ship Lyra Browser.{' '}
+          <a
+            class="font-medium text-heading underline decoration-[color:var(--aw-color-strong)] underline-offset-4"
+            href="https://ublockorigin.com/"
+          >
+            uBlock Origin
+          </a>{' '}
+          is fetched, not vendored.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-xl font-semibold tracking-tight text-heading">Marks and licenses</h2>
+        <p class="mt-4 text-default leading-relaxed">
+          Overlay files: MPL-2.0. Engine code from Mozilla under MPL-2.0. Product mark: Lyra. Space Grotesk and Space
+          Mono: OFL. uBlock Origin: GPL-3.0-only. Site source uses AstroWind (MIT). No analytics.
+        </p>
+        <p class="mt-4 text-sm text-muted">
+          <a
+            class="underline decoration-[color:var(--aw-color-strong)] underline-offset-4 hover:text-heading"
+            href={getPermalink('/branding')}
+          >
+            Branding
+          </a>
+        </p>
+      </div>
+      <div>
+        <h2 class="text-xl font-semibold tracking-tight text-heading">Contact</h2>
+        <p class="mt-4 text-default leading-relaxed">
+          Questions about the overlay or the site go to contact@lyrabrowser.com.
+        </p>
+        <p class="mt-4 text-sm text-muted">
+          <a
+            class="underline decoration-[color:var(--aw-color-strong)] underline-offset-4 hover:text-heading"
+            href={getPermalink('/contact')}
+          >
+            contact@lyrabrowser.com
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

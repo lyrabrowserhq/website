@@ -1,0 +1,26 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+import type { MetaData } from '~/types';
+
+export interface Props {
+  frontmatter: {
+    title?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+
+const metadata: MetaData = {
+  title: frontmatter?.title,
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="border-b border-[color:var(--aw-color-hairline)] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+    <div class="prose prose-neutral mx-auto max-w-3xl dark:prose-invert">
+      <h1>{frontmatter.title}</h1>
+      <slot />
+    </div>
+  </section>
+</Layout>

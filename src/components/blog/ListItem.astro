@@ -1,0 +1,49 @@
+---
+import { Icon } from 'astro-icon/components';
+import PostTags from '~/components/blog/Tags.astro';
+
+import { APP_BLOG } from 'astrowind:config';
+import type { Post } from '~/types';
+
+import { getPermalink } from '~/utils/permalinks';
+import { getFormattedDate } from '~/utils/utils';
+
+export interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : '';
+---
+
+<article class="rounded-xl border border-[color:var(--aw-color-hairline)] bg-[color:var(--aw-color-surface)] p-6 sm:p-8">
+  <p class="text-sm text-muted">
+    <Icon name="tabler:clock" class="inline-block -mt-0.5 h-3.5 w-3.5" aria-hidden="true" />
+    <time datetime={post.publishDate.toISOString()}>{getFormattedDate(post.publishDate)}</time>
+    {post.author && <> · {post.author}</>}
+    {post.category && (
+      <>
+        {' '}
+        ·{' '}
+        <a class="hover:underline" href={getPermalink(post.category.slug, 'category')}>
+          {post.category.title}
+        </a>
+      </>
+    )}
+  </p>
+  <h2 class="mt-2 text-xl font-semibold tracking-tight text-heading">
+    {link ? (
+      <a class="hover:underline" href={link}>
+        {post.title}
+      </a>
+    ) : (
+      post.title
+    )}
+  </h2>
+  {post.excerpt && <p class="mt-2 text-default">{post.excerpt}</p>}
+  {post.tags && Array.isArray(post.tags) ? (
+    <footer class="mt-4">
+      <PostTags tags={post.tags} />
+    </footer>
+  ) : null}
+</article>

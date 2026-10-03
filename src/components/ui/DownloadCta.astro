@@ -1,0 +1,53 @@
+---
+import { Icon } from 'astro-icon/components';
+import { getPermalink } from '~/utils/permalinks';
+import { DOWNLOAD, loadDownloads } from '~/data/downloads';
+
+export interface Props {
+  class?: string;
+  label?: string;
+}
+
+const { class: className = 'btn-primary px-5 py-2.5 text-base', label = 'Download Lyra Browser' } = Astro.props;
+const platforms = await loadDownloads();
+const linux = platforms.find((platform) => platform.id === 'linux' && platform.href);
+const windows = platforms.find((platform) => platform.id === 'windows' && platform.href);
+const fallback = getPermalink(DOWNLOAD.page);
+---
+
+<a
+  class:list={['js-ua-download', className]}
+  href={fallback}
+  data-linux={linux?.href || ''}
+  data-windows={windows?.href || ''}
+  data-fallback={fallback}
+>
+  <Icon name="tabler:download" class="mr-2 h-4 w-4" aria-hidden="true" />
+  <span data-ua-label>{label}</span>
+</a>
+
+<script>
+  function applyUaDownload() {
+    document.querySelectorAll<HTMLAnchorElement>('a.js-ua-download').forEach((anchor) => {
+      const ua = navigator.userAgent;
+      const linux = anchor.dataset.linux;
+      const windows = anchor.dataset.windows;
+      const fallback = anchor.dataset.fallback || anchor.getAttribute('href') || '';
+      const label = anchor.querySelector<HTMLElement>('[data-ua-label]');
+      if (/Windows/i.test(ua) && windows) {
+        anchor.href = windows;
+        if (label) label.textContent = 'Download for Windows';
+        return;
+      }
+      if (/Linux/i.test(ua) && !/Android/i.test(ua) && linux) {
+        anchor.href = linux;
+        if (label) label.textContent = 'Download for Linux';
+        return;
+      }
+      anchor.href = fallback;
+    });
+  }
+
+  applyUaDownload();
+  document.addEventListener('astro:page-load', applyUaDownload);
+</script>

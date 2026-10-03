@@ -1,0 +1,29 @@
+---
+import Item from '~/components/blog/ListItem.astro';
+import EmptyState from '~/components/blog/EmptyState.astro';
+import { getBlogPermalink } from '~/utils/permalinks';
+import type { Post } from '~/types';
+
+export interface Props {
+  posts: Array<Post>;
+}
+
+const { posts } = Astro.props;
+---
+
+{posts.length === 0 ? (
+  <EmptyState
+    title="No items"
+    body="Nothing in this list. Try the full news index."
+    href={getBlogPermalink()}
+    action="All news"
+  />
+) : (
+  <ul class="grid gap-4">
+    {posts.map((post) => (
+      <li>
+        <Item post={post} />
+      </li>
+    ))}
+  </ul>
+)}

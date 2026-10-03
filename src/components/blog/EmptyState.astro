@@ -1,0 +1,25 @@
+---
+export interface Props {
+  title?: string;
+  body?: string;
+  href?: string;
+  action?: string;
+}
+
+const {
+  title = 'No news yet',
+  body = 'When a release ships, it will show up here.',
+  href = '/',
+  action = 'Back home',
+} = Astro.props;
+---
+
+<div class="rounded-lg border border-[color:var(--aw-color-hairline)] bg-[color:var(--aw-color-surface)] px-5 py-10">
+  <p class="text-lg font-semibold tracking-tight text-heading">{title}</p>
+  <p class="mt-3 text-default">{body}</p>
+  <p class="mt-6">
+    <a class="btn-secondary" href={href}>
+      {action}
+    </a>
+  </p>
+</div>

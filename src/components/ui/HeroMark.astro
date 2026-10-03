@@ -1,0 +1,22 @@
+---
+import { Image } from 'astro:assets';
+import mark from '~/assets/images/lyra-mark.png';
+---
+
+<div class="hero-mark">
+  <div class="hero-mark-ring hero-mark-ring-outer" aria-hidden="true"></div>
+  <div class="hero-mark-ring hero-mark-ring-inner" aria-hidden="true"></div>
+  <span class="hero-mark-disc">
+    <Image
+      src={mark}
+      alt=""
+      width={208}
+      height={208}
+      densities={[1.5, 2]}
+      class="h-full w-full object-contain"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </span>
+</div>

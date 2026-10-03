@@ -1,0 +1,173 @@
+---
+import { Icon } from 'astro-icon/components';
+import Logo from '~/components/Logo.astro';
+import ToggleTheme from '~/components/common/ToggleTheme.astro';
+import ToggleMenu from '~/components/common/ToggleMenu.astro';
+import Button from '~/components/ui/Button.astro';
+
+import { getHomePermalink } from '~/utils/permalinks';
+import { trimSlash, getAsset } from '~/utils/permalinks';
+import type { CallToAction } from '~/types';
+
+interface Link {
+  text?: string;
+  href?: string;
+  ariaLabel?: string;
+  icon?: string;
+}
+
+interface MenuLink extends Link {
+  links?: Array<MenuLink>;
+}
+
+export interface Props {
+  id?: string;
+  links?: Array<MenuLink>;
+  actions?: Array<CallToAction>;
+  isSticky?: boolean;
+  isDark?: boolean;
+  isFullWidth?: boolean;
+  showToggleTheme?: boolean;
+  showRssFeed?: boolean;
+  position?: string;
+}
+
+const {
+  id = 'header',
+  links = [],
+  actions = [],
+  isSticky = false,
+  showToggleTheme = false,
+  showRssFeed = false,
+} = Astro.props;
+
+const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
+const isActive = (href?: string) => typeof href === 'string' && `/${trimSlash(href)}` === currentPath;
+---
+
+<aw-header>
+  <header
+    class:list={[
+      { sticky: isSticky, relative: !isSticky },
+      'top-0 z-40 w-full border-b border-[color:var(--aw-color-hairline)] bg-page',
+    ]}
+    {...(isSticky ? { 'data-aw-sticky-header': true } : {})}
+    {...(id ? { id } : {})}
+  >
+    <div class="mx-auto flex max-w-6xl min-w-0 items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 lg:px-8">
+      <a class="flex min-w-0 shrink items-center" href={getHomePermalink()} aria-label="Lyra Browser home">
+        <Logo />
+      </a>
+      <nav class="hidden flex-1 items-center justify-center lg:flex" aria-label="Main">
+        <ul class="flex flex-col gap-1 text-sm font-medium lg:flex-row lg:gap-0">
+          {links.map(({ text, href }) => (
+            <li>
+              <a
+                class:list={[
+                  'px-3 py-2 text-muted hover:text-heading',
+                  { 'aw-link-active text-heading': isActive(href) },
+                ]}
+                href={href}
+                aria-current={isActive(href) ? 'page' : undefined}
+              >
+                {text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div class="ml-auto flex items-center gap-1">
+        {showToggleTheme && (
+          <ToggleTheme
+            iconClass="w-5 h-5"
+            class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-muted hover:bg-[color:var(--aw-color-hairline)] hover:text-heading"
+          />
+        )}
+        {showRssFeed && (
+          <a
+            class="hidden items-center rounded-md p-2 text-muted hover:bg-[color:var(--aw-color-hairline)] hover:text-heading sm:inline-flex"
+            aria-label="RSS Feed"
+            href={getAsset('/rss.xml')}
+          >
+            <Icon name="tabler:rss" class="h-5 w-5" aria-hidden="true" />
+          </a>
+        )}
+        {actions?.length ? (
+          <span class="hidden lg:inline-flex">
+            {actions.map((btnProps) => (
+              <Button {...btnProps} class="ml-1 py-1.5 px-3 text-sm" />
+            ))}
+          </span>
+        ) : null}
+        <div class="lg:hidden">
+          <ToggleMenu />
+        </div>
+      </div>
+    </div>
+    <nav
+      id="mobile-nav"
+      class="mobile-nav hidden border-t border-[color:var(--aw-color-hairline)] px-4 py-3 lg:hidden"
+      aria-label="Mobile"
+    >
+      <ul class="flex flex-col gap-1 text-sm font-medium">
+        {links.map(({ text, href }) => (
+          <li>
+            <a
+              class:list={['block px-1 py-2 text-muted hover:text-heading', { 'text-heading': isActive(href) }]}
+              href={href}
+              aria-current={isActive(href) ? 'page' : undefined}
+            >
+              {text}
+            </a>
+          </li>
+        ))}
+        {actions?.map((btnProps) => (
+          <li class="pt-2">
+            <Button {...btnProps} class="w-full py-1.5 px-3 text-sm" />
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </header>
+</aw-header>
+
+<style>
+  aw-header {
+    display: contents;
+  }
+</style>
+
+<script>
+  class AwHeader extends HTMLElement {
+    connectedCallback() {
+      const toggle = this.querySelector<HTMLElement>('[data-aw-toggle-menu]');
+      const mobileNav = this.querySelector<HTMLElement>('.mobile-nav');
+
+      const closeMenu = () => {
+        toggle?.classList.remove('expanded');
+        toggle?.setAttribute('aria-expanded', 'false');
+        mobileNav?.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      };
+
+      toggle?.addEventListener('click', () => {
+        const expanded = toggle.classList.toggle('expanded');
+        toggle.setAttribute('aria-expanded', String(expanded));
+        mobileNav?.classList.toggle('hidden', !expanded);
+        document.body.classList.toggle('overflow-hidden', expanded);
+      });
+
+      mobileNav?.addEventListener('click', (e) => {
+        if ((e.target as HTMLElement).closest('a')) closeMenu();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+    }
+  }
+
+  if (!customElements.get('aw-header')) {
+    customElements.define('aw-header', AwHeader);
+  }
+</script>

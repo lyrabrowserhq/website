@@ -1,0 +1,139 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
+import mark from '~/assets/images/lyra-mark.png';
+import lockup from '~/assets/images/lyra-lockup.png';
+
+const metadata = {
+  title: 'Branding',
+  description: 'Lyra Browser mark, wordmark, and colors.',
+};
+
+const colors = [
+  { name: 'Ink', hex: '#0a0a0b' },
+  { name: 'Paper', hex: '#fafafa' },
+  { name: 'Zinc', hex: '#18181b' },
+  { name: 'Muted', hex: '#5c5c64' },
+];
+
+const markSizes = [16, 32, 48, 64, 128, 256];
+const lockupWidths = [160, 280, 420];
+---
+
+<Layout metadata={metadata}>
+  <section class="border-b border-[color:var(--aw-color-hairline)] px-4 py-12 sm:px-6 sm:py-16 md:py-20 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <h1 class="max-w-2xl text-3xl font-semibold tracking-tight text-heading sm:text-4xl md:text-5xl">Branding</h1>
+      <p class="mt-5 max-w-xl text-base text-default sm:text-lg">
+        Bird hugging the Ring Nebula. Vega sits in the hole. The product name is Lyra Browser.
+      </p>
+    </div>
+  </section>
+
+  <section class="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="text-xl font-semibold tracking-tight text-heading">Mark</h2>
+      <p class="mt-3 max-w-xl text-sm text-muted">
+        Keep the bird on a near-black disc. Do not recolor it or sit it next to another browser's mark.
+      </p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <figure class="m-0 flex flex-col items-center justify-center rounded-lg border border-[color:var(--aw-color-hairline)] bg-[#0a0a0b] px-6 py-12">
+          <span class="inline-flex size-28 overflow-hidden rounded-full bg-[#0a0a0b] sm:size-32">
+            <Image src={mark} alt="Lyra mark on dark" width={256} height={256} class="h-full w-full object-contain" />
+          </span>
+          <figcaption class="mt-6 text-xs text-[#a1a1aa]">Dark</figcaption>
+        </figure>
+        <figure class="m-0 flex flex-col items-center justify-center rounded-lg border border-[color:var(--aw-color-hairline)] bg-[#fafafa] px-6 py-12">
+          <span class="inline-flex size-28 overflow-hidden rounded-full bg-[#0a0a0b] sm:size-32">
+            <Image src={mark} alt="Lyra mark on light" width={256} height={256} class="h-full w-full object-contain" />
+          </span>
+          <figcaption class="mt-6 text-xs text-muted">Light</figcaption>
+        </figure>
+      </div>
+      <h3 class="mt-12 text-sm font-medium text-heading">Sizes</h3>
+      <ul class="mt-5 flex list-none flex-wrap items-end gap-6 p-0 sm:gap-8">
+        {markSizes.map((px) => (
+          <li class="flex flex-col items-center gap-2">
+            <span
+              class="inline-flex items-center justify-center rounded-md bg-[#0a0a0b]"
+              style={`width:${px + 16}px;height:${px + 16}px`}
+            >
+              <Image
+                src={mark}
+                alt=""
+                width={px}
+                height={px}
+                class="object-contain"
+                style={`width:${px}px;height:${px}px`}
+              />
+            </span>
+            <span class="font-mono text-[11px] text-muted">{px}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="border-t border-[color:var(--aw-color-hairline)] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="text-xl font-semibold tracking-tight text-heading">Lockup</h2>
+      <p class="mt-3 max-w-xl text-sm text-muted">
+        Mark plus LYRA BROWSER in Space Mono Bold. Leave space around it. Do not stretch it.
+      </p>
+      <figure class="mt-8 m-0 flex items-center justify-center rounded-lg bg-[#0a0a0b] px-6 py-10 sm:px-10 sm:py-12">
+        <Image
+          src={lockup}
+          alt="Lyra Browser lockup"
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 768px) 48rem, 100vw"
+          class="h-auto w-full max-w-3xl"
+        />
+      </figure>
+      <ul class="mt-8 flex list-none flex-wrap items-end gap-8 p-0">
+        {lockupWidths.map((width) => (
+          <li class="flex flex-col items-start gap-2">
+            <Image
+              src={lockup}
+              alt=""
+              width={width}
+              height={Math.round((width * 672) / 1907)}
+              class="h-auto rounded-md bg-[#0a0a0b]"
+              style={`width:${width}px`}
+            />
+            <span class="font-mono text-[11px] text-muted">{width}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-8 font-mono text-2xl font-bold tracking-[0.12em] text-heading sm:text-3xl">LYRA BROWSER</p>
+      <p class="mt-3 text-sm text-muted">Wordmark only, Space Mono Bold, letter-spacing 0.12em.</p>
+    </div>
+  </section>
+
+  <section class="border-t border-[color:var(--aw-color-hairline)] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="text-xl font-semibold tracking-tight text-heading">Color</h2>
+      <ul class="mt-8 grid list-none grid-cols-2 gap-4 p-0 sm:grid-cols-4">
+        {colors.map((color) => (
+          <li>
+            <div
+              class="aspect-[4/3] rounded-lg border border-[color:var(--aw-color-hairline)]"
+              style={`background:${color.hex}`}
+            ></div>
+            <p class="mt-3 text-sm font-medium text-heading">{color.name}</p>
+            <p class="mt-1 font-mono text-xs text-muted">{color.hex}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-8 max-w-xl text-sm text-muted">
+        UI type is Space Grotesk. Source art lives in
+        <a
+          class="underline decoration-[color:var(--aw-color-strong)] underline-offset-4 hover:text-heading"
+          href="https://github.com/lyrabrowserhq/lyra/tree/vega/branding/lyra"
+        >
+          branding/lyra
+        </a>{' '}
+        in the repo.
+      </p>
+    </div>
+  </section>
+</Layout>

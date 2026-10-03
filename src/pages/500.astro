@@ -1,0 +1,17 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import ErrorHero from '~/components/ui/ErrorHero.astro';
+
+const metadata = {
+  title: 'Server error',
+  description: 'The host failed to serve this page.',
+};
+---
+
+<Layout metadata={metadata}>
+  <ErrorHero
+    code="500"
+    title="The host failed"
+    body="The host hit a problem serving this page. Try again in a bit, or write to contact@lyrabrowser.com."
+  />
+</Layout>

@@ -1,0 +1,8 @@
+---
+const { title = await Astro.slots.render('default'), subtitle = await Astro.slots.render('subtitle') } = Astro.props;
+---
+
+<header class="mb-10">
+  <h1 class="text-4xl font-semibold tracking-tight text-heading" set:html={title} />
+  {subtitle && <div class="mt-2 text-default" set:html={subtitle} />}
+</header>

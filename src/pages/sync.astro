@@ -1,0 +1,68 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
+import { getPermalink } from '~/utils/permalinks';
+
+const metadata = {
+  title: 'Sync',
+  description: 'Optional encrypted P2P sync. No account.',
+};
+
+const steps = [
+  {
+    title: 'No account',
+    body: 'Mozilla accounts stay off. Sync is a pairing code you type on each device.',
+  },
+  {
+    title: 'Tabs and bookmarks',
+    body: 'Open tab URLs and a Lyra Browser bookmark folder. Passwords are never sent. Received tabs stay off until you allow them.',
+  },
+  {
+    title: 'Your relay if you want',
+    body: 'The default relay is wss://sync.lyrabrowser.com/ws. It only forwards frames that share your pairing group. Point Settings at your own relay if you run one.',
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <section class="border-b border-[color:var(--aw-color-hairline)] px-4 py-12 sm:px-6 sm:py-16 md:py-20 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <Breadcrumbs class="mb-5" items={[{ text: 'Home', href: getPermalink('/') }, { text: 'Sync' }]} />
+      <p class="text-sm font-medium text-muted">Off by default</p>
+      <h1 class="mt-3 max-w-2xl text-3xl font-semibold tracking-tight text-heading sm:text-4xl md:text-5xl">
+        Sync without an account
+      </h1>
+      <p class="mt-5 max-w-2xl text-base text-default sm:text-lg">
+        Devices share encrypted tabs and bookmarks through a relay. The relay only sees ciphertext. Turn it on in
+        Settings when you want it.
+      </p>
+    </div>
+  </section>
+
+  <section class="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <dl class="max-w-3xl">
+        {steps.map((step) => (
+          <div class="border-t border-[color:var(--aw-color-hairline)] py-7">
+            <dt class="text-lg font-semibold tracking-tight text-heading">{step.title}</dt>
+            <dd class="mt-2 mb-0 text-base leading-relaxed text-default">{step.body}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="border-t border-[color:var(--aw-color-hairline)] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="text-2xl font-semibold tracking-tight text-heading">How to turn it on</h2>
+      <ol class="mt-5 list-decimal space-y-3 pl-5 text-default">
+        <li>Open Settings, then the Lyra Browser pane.</li>
+        <li>Turn on P2P sync and create a pairing code.</li>
+        <li>Type that same code on the other device.</li>
+      </ol>
+      <p class="mt-6 text-sm text-muted">
+        The default relay is wss://sync.lyrabrowser.com/ws. It is a server, not a page you visit in the address bar.
+      </p>
+    </div>
+  </section>
+</Layout>

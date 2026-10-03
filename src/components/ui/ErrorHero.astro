@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+import mark from '~/assets/images/lyra-mark.png';
+import { getHomePermalink, getPermalink } from '~/utils/permalinks';
+
+export interface Props {
+  code: string;
+  title: string;
+  body: string;
+}
+
+const { code, title, body } = Astro.props;
+---
+
+<section class="relative overflow-hidden border-b border-[color:var(--aw-color-hairline)]">
+  <Image
+    src={mark}
+    alt=""
+    width={384}
+    height={384}
+    class="pointer-events-none absolute -right-16 top-1/2 size-72 -translate-y-1/2 opacity-[0.07] sm:size-96 lg:right-8 dark:opacity-[0.12]"
+  />
+  <div class="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+    <p class="font-mono text-sm uppercase tracking-wider text-muted">{code}</p>
+    <h1 class="mt-4 max-w-xl text-3xl font-semibold tracking-tight text-heading sm:text-5xl">{title}</h1>
+    <p class="mt-5 max-w-lg text-base leading-relaxed text-default sm:text-lg">{body}</p>
+    <div class="mt-10 flex flex-wrap gap-3">
+      <a class="btn-primary" href={getHomePermalink()}>
+        Home
+      </a>
+      <a class="btn-secondary" href={getPermalink('/download')}>
+        Download
+      </a>
+      <a class="btn-secondary" href={getPermalink('/contact')}>
+        Contact
+      </a>
+    </div>
+  </div>
+</section>

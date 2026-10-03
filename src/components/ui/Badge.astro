@@ -1,0 +1,30 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  icon?: string;
+  text: string;
+  variant?: 'default' | 'soon';
+  soon?: boolean;
+}
+
+const { icon, text, variant = 'default', soon = false } = Astro.props;
+---
+
+<span class:list={['relative inline-flex', soon && 'me-1 mt-1']}>
+  {variant === 'soon' ? (
+    <span class="inline-flex items-center rounded-full border border-[color:var(--aw-color-hairline)] bg-page px-2.5 py-1 text-xs font-medium uppercase tracking-wider text-muted">
+      {text}
+    </span>
+  ) : (
+    <span class="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--aw-color-hairline)] bg-[color:var(--aw-color-surface)] px-2.5 py-1 text-xs font-medium text-heading">
+      {icon && <Icon name={icon} class="h-4 w-4" aria-hidden="true" />}
+      {text}
+    </span>
+  )}
+  {soon && (
+    <span class="absolute -right-2 -top-2 z-10 rounded-full border border-[color:var(--aw-color-hairline)] bg-page px-1.5 py-0.5 text-[11px] font-medium uppercase leading-none tracking-wider text-muted">
+      Soon
+    </span>
+  )}
+</span>
