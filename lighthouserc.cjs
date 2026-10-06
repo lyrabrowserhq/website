@@ -13,7 +13,6 @@ module.exports = {
         'http://127.0.0.1:4392/privacy',
         'http://127.0.0.1:4392/terms',
         'http://127.0.0.1:4392/news',
-        'http://127.0.0.1:4392/news/lyra-0-5-0',
       ],
       numberOfRuns: 1,
       settings: {

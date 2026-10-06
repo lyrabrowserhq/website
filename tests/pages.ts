@@ -8,5 +8,4 @@ export const pages = [
   '/privacy',
   '/terms',
   '/news',
-  '/news/lyra-0-5-0',
 ] as const;
