@@ -2,20 +2,20 @@
  * Download host, tag, and filenames. Change origin to move files off GitHub.
  */
 export const DOWNLOAD = {
-  origin: 'https://github.com/lyrabrowserhq/lyra/releases/download',
-  latestApi: 'https://api.github.com/repos/lyrabrowserhq/lyra/releases/latest',
+  origin: 'https://github.com/lyrabrowserhq/lyra-browser/releases/download',
+  latestApi: 'https://api.github.com/repos/lyrabrowserhq/lyra-browser/releases/latest',
   page: '/download',
-  tag: 'v0.5.0',
-  version: '0.5.0',
+  tag: 'v0.1.0',
+  version: '0.1.0',
   linux: {
-    file: 'lyra-0.5.0-linux-x86_64.tar.xz',
-    size: 500693892,
-    sha256: 'bed2fba2786ded31377da0940d8c267c9e7279a51692e099ecfd4bd905d42086',
+    file: 'lyra-0.1.0-linux-x86_64.tar.xz',
+    size: 502196268,
+    sha256: '44815a74ef0c9cc0fd20ef1ccbd8f5083b0833f5e8ecb1714ed3b99a04bec161',
   },
   windows: {
-    file: 'lyra-0.5.0-windows-x86_64.zip',
-    size: 122825544,
-    sha256: '0dd79a12338dff783aa4247e9584590700db17a1e3e59863153a7bccfe9231a8',
+    file: 'lyra-0.1.0-windows-x86_64.zip',
+    size: 137112781,
+    sha256: 'de2a4bcf7d574871e810201d9c011983f324f31ccb05ce210dc3445227fc8520',
   },
 } as const;
 

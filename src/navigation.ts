@@ -24,14 +24,14 @@ export const footerData = {
       links: [
         { text: 'Download', href: getPermalink('/download') },
         { text: 'News', href: getBlogPermalink() },
-        { text: 'Releases', href: 'https://github.com/lyrabrowserhq/lyra/releases' },
+        { text: 'Releases', href: 'https://github.com/lyrabrowserhq/lyra-browser/releases' },
       ],
     },
     {
       title: 'Project',
       links: [
-        { text: 'Source', href: 'https://github.com/lyrabrowserhq/lyra' },
-        { text: 'Issues', href: 'https://github.com/lyrabrowserhq/lyra/issues' },
+        { text: 'Source', href: 'https://github.com/lyrabrowserhq/lyra-browser' },
+        { text: 'Issues', href: 'https://github.com/lyrabrowserhq/lyra-browser/issues' },
         { text: 'Seek', href: 'https://seek.lyrabrowser.com/' },
         { text: 'Sync', href: getPermalink('/sync') },
         { text: 'Branding', href: getPermalink('/branding') },
@@ -46,7 +46,7 @@ export const footerData = {
   ],
   socialLinks: [
     { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
-    { ariaLabel: 'GitHub', icon: 'tabler:brand-github', href: 'https://github.com/lyrabrowserhq/lyra' },
+    { ariaLabel: 'GitHub', icon: 'tabler:brand-github', href: 'https://github.com/lyrabrowserhq/lyra-browser' },
   ],
   footNote: 'Lyra Browser. Engine under MPL-2.0. Not affiliated with Mozilla.',
 };

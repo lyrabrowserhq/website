@@ -7,4 +7,4 @@ Lyra Browser is provided as-is. Overlay files are MPL-2.0. Engine code comes fro
 
 You are responsible for how you use the browser and for checking release signatures if that matters to you.
 
-Source: https://github.com/lyrabrowserhq/lyra
+Source: https://github.com/lyrabrowserhq/lyra-browser
